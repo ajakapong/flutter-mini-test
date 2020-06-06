@@ -29,37 +29,96 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.settings),
-            onPressed: () =>{
-
-            },
+            onPressed: () => {},
           )
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '$title',
-              style: Theme.of(context).textTheme.headline3,
+      body: GridView.count(
+        primary: false,
+        padding: const EdgeInsets.all(20),
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        crossAxisCount: 2,
+        children: <Widget>[
+          GestureDetector(
+            onTap: () => {
+              Navigator.pushNamed(context, 'homestack/company')
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.business_center,
+                    size: 90,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    "บริษัท",
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  )
+                ],
+              ),
+              color: Colors.orange,
             ),
-            RaisedButton(
-              child: Text('Click me'),
-              onPressed: () => {
-                setState(() {
-                  isToggle = !isToggle;
-                  isToggle ? title = 'CCT' : title = 'UUU';
-                })
-              },
-            ),
-             RaisedButton(
-              child: Text('Navagate To Company'),
-              onPressed: () => {
-               Navigator.pushNamed(context, 'homestack/company')
-              },
-            )
-          ],
-        ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: const Text('Heed not the rabble'),
+            color: Colors.teal[200],
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: const Text('Sound of screams but the'),
+            color: Colors.teal[300],
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: const Text('Who scream'),
+            color: Colors.teal[400],
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: const Text('Revolution is coming...'),
+            color: Colors.teal[500],
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: const Text('Revolution, they...'),
+            color: Colors.teal[600],
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: const Text('Revolution, they...'),
+            color: Colors.teal[600],
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: const Text('Revolution, they...'),
+            color: Colors.teal[600],
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: const Text('Revolution, they...'),
+            color: Colors.teal[600],
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: const Text('Revolution, they...'),
+            color: Colors.teal[600],
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: const Text('Revolution, they...'),
+            color: Colors.teal[600],
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: const Text('Revolution, they...'),
+            color: Colors.teal[600],
+          ),
+        ],
       ),
     );
   }
