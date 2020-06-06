@@ -18,11 +18,12 @@ class _MenuState extends State<Menu> {
               backgroundImage: AssetImage('assets/images/me.jpg'),
             ),
             accountEmail: Text("ajakapong@gmail.com"),
-            accountName: Text("Jakapong Wattanavaree"),
+            accountName: Text("Jakapong"),
           ),
           ListTile(
             leading: Icon(Icons.home),
             title: Text("หน้าหลัก"),
+            selected: ModalRoute.of(context).settings.name == 'homestack/home' ? true : false,
             trailing: Icon(Icons.arrow_right),
             onTap: () => {
                Navigator.of(context,rootNavigator: true).pushNamedAndRemoveUntil('/', (route) => false)
@@ -31,6 +32,7 @@ class _MenuState extends State<Menu> {
             ListTile(
             leading: Icon(Icons.insert_photo),
             title: Text("สินค้า"),
+             selected: ModalRoute.of(context).settings.name == 'productstack/product' ? true : false,
             trailing: Icon(Icons.arrow_right),
             onTap: () => {
               Navigator.of(context,rootNavigator: true).pushNamedAndRemoveUntil('/product', (route) => false)
