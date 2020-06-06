@@ -23,6 +23,7 @@ class _CompanyPageState extends State<CompanyPage> {
             child: Padding(
               padding: EdgeInsets.all(10),
               child: Column(
+                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text('New Normal',
                       style:
