@@ -1,0 +1,43 @@
+import 'package:flutter/material.dart';
+
+class Menu extends StatefulWidget {
+  Menu({Key key}) : super(key: key);
+
+  @override
+  _MenuState createState() => _MenuState();
+}
+
+class _MenuState extends State<Menu> {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: AssetImage('assets/images/me.jpg'),
+            ),
+            accountEmail: Text("ajakapong@gmail.com"),
+            accountName: Text("Jakapong Wattanavaree"),
+          ),
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text("หน้าหลัก"),
+            trailing: Icon(Icons.arrow_right),
+            onTap: () => {
+               Navigator.of(context,rootNavigator: true).pushNamedAndRemoveUntil('/', (route) => false)
+            },
+          ),
+            ListTile(
+            leading: Icon(Icons.insert_photo),
+            title: Text("สินค้า"),
+            trailing: Icon(Icons.arrow_right),
+            onTap: () => {
+              Navigator.of(context,rootNavigator: true).pushNamedAndRemoveUntil('/product', (route) => false)
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
