@@ -13,8 +13,7 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  String title = "CCT";
-  bool isToggle = false;
+  bool isLoading = true;
   List<Course> course = [];
 
   _getData() async {
@@ -25,10 +24,12 @@ class _ProductPageState extends State<ProductPage> {
       final product _product = product.fromJson(json.decode(response.body));
       setState(() {
         course = _product.course;
+        isLoading = false;
       });
-    }
-    else
-    {
+    } else {
+      setState(() {
+        isLoading = false;
+      });
       print("Error : StatusCode ${response.statusCode}");
     }
   }
@@ -42,32 +43,48 @@ class _ProductPageState extends State<ProductPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print(title);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Menu(),
-      appBar: AppBar(
-        title: const Logo(),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () => {},
-          )
-        ],
-      ),
-      body: ListView.separated(itemBuilder: (BuildContext context,index){
-        return ListTile(title: Text('${course[index].title}'),
-        subtitle: Text('${course[index].detail}'),
-        );
-      }
-      , separatorBuilder: (
-      (BuildContext context,index) => Divider()
-      )
-      , itemCount: course.length)
-    );
+        drawer: Menu(),
+        appBar: AppBar(
+          title: const Logo(),
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () => {},
+            )
+          ],
+        ),
+        body: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.separated(
+                itemBuilder: (BuildContext context, index) {
+                  return ListTile(
+                    leading: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: NetworkImage(course[index].picture),
+                              fit: BoxFit.cover)),
+                    ),
+                    title: Text('${course[index].title}'),
+                    subtitle: Text('${course[index].detail}'),
+                    trailing: Icon(Icons.arrow_right),
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed('productstack/productdetail');
+                    },
+                  );
+                },
+                separatorBuilder: ((BuildContext context, index) => Divider()),
+                itemCount: course.length));
   }
 }
