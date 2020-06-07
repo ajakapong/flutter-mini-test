@@ -23,21 +23,40 @@ class _MenuState extends State<Menu> {
           ListTile(
             leading: Icon(Icons.home),
             title: Text("หน้าหลัก"),
-            selected: ModalRoute.of(context).settings.name == 'homestack/home' ? true : false,
+            selected: ModalRoute.of(context).settings.name == 'homestack/home'
+                ? true
+                : false,
             trailing: Icon(Icons.arrow_right),
             onTap: () => {
-               Navigator.of(context,rootNavigator: true).pushNamedAndRemoveUntil('/', (route) => false)
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamedAndRemoveUntil('/', (route) => false)
             },
           ),
-            ListTile(
+          ListTile(
             leading: Icon(Icons.insert_photo),
             title: Text("สินค้า"),
-             selected: ModalRoute.of(context).settings.name == 'productstack/product' ? true : false,
+            selected:
+                ModalRoute.of(context).settings.name == 'productstack/product'
+                    ? true
+                    : false,
             trailing: Icon(Icons.arrow_right),
             onTap: () => {
-              Navigator.of(context,rootNavigator: true).pushNamedAndRemoveUntil('/product', (route) => false)
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamedAndRemoveUntil('/product', (route) => false)
             },
-          )
+          ),
+          ListTile(
+            leading: Icon(Icons.new_releases),
+            title: Text('ข่าวสาร'),
+            trailing: Icon(Icons.arrow_right),
+            selected: ModalRoute.of(context).settings.name == 'newsstack/news'
+                ? true
+                : false,
+            onTap: () {
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamedAndRemoveUntil('/newsstack', (route) => false);
+            },
+          ),
         ],
       ),
     );

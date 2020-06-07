@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:my_app/pages/homestack/home_stack.dart';
 import 'package:my_app/pages/productstack/product_stack.dart';
 
+import 'pages/newsstack/news_stack.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -24,7 +26,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         "/": (context) => HomeStack(),
-        "/product": (context) => ProductStack()
+        "/product": (context) => ProductStack(),
+         '/newsstack': (context) => NewsStack()
       },
       debugShowCheckedModeBanner: false,
     );
