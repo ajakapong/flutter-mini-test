@@ -124,7 +124,12 @@ class _NewsPageState extends State<NewsPage> {
                   itemBuilder: (BuildContext context, index) {
                     return Card(
                       child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, 'newsstack/webview',arguments: {
+                              'name' :articles[index]['source']['name'],
+                              'url':articles[index]['url']
+                            });
+                          },
                           child: Column(
                             children: <Widget>[
                               SizedBox(
