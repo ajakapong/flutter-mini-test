@@ -80,7 +80,10 @@ class _ProductPageState extends State<ProductPage> {
                     trailing: Icon(Icons.arrow_right),
                     onTap: () {
                       Navigator.of(context)
-                          .pushNamed('productstack/productdetail');
+                          .pushNamed('productstack/productdetail', arguments: {
+                        'id': course[index].id,
+                        'title': course[index].title
+                      });
                     },
                   );
                 },
