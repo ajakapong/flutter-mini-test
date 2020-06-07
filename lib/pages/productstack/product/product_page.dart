@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/models/product_modal.dart';
 import 'package:my_app/widgets/logo.dart';
 import 'package:my_app/widgets/menu.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ProductPage extends StatefulWidget {
   ProductPage({Key key}) : super(key: key);
@@ -12,6 +15,29 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   String title = "CCT";
   bool isToggle = false;
+  List<Course> course = [];
+
+  _getData() async {
+    const url = 'https://api.codingthailand.com/api/course';
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      // print(response.body);
+      final product _product = product.fromJson(json.decode(response.body));
+      setState(() {
+        course = _product.course;
+      });
+    }
+    else
+    {
+      print("Error : StatusCode ${response.statusCode}");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
 
   @override
   void didChangeDependencies() {
@@ -29,29 +55,19 @@ class _ProductPageState extends State<ProductPage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.settings),
-            onPressed: () =>{
-
-            },
+            onPressed: () => {},
           )
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '$title',
-              style: Theme.of(context).textTheme.headline3,
-            ),
-             RaisedButton(
-              child: Text('Navagate To Detail'),
-              onPressed: () => {
-               Navigator.pushNamed(context, 'productstack/productdetail')
-              },
-            )
-          ],
-        ),
-      ),
+      body: ListView.separated(itemBuilder: (BuildContext context,index){
+        return ListTile(title: Text('${course[index].title}'),
+        subtitle: Text('${course[index].detail}'),
+        );
+      }
+      , separatorBuilder: (
+      (BuildContext context,index) => Divider()
+      )
+      , itemCount: course.length)
     );
   }
 }
