@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -13,6 +14,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  bool _autovalidate = false;
 
   _login(Map<String, dynamic> formValues) async {
     var url = "https://api.codingthailand.com/api/login";
@@ -23,36 +25,36 @@ class _LoginPageState extends State<LoginPage> {
           "password": formValues["password"]
         }));
     if (response.statusCode == 200) {
-      var resp = jsonDecode(response.body);
-      print(resp);
+      var token = jsonDecode(response.body);
 
-      // Flushbar(
-      //   message: resp['message'],
-      //   icon: Icon(
-      //     Icons.info_outline,
-      //     size: 28.0,
-      //     color: Colors.blue[300],
-      //   ),
-      //   duration: Duration(seconds: 3),
-      //   leftBarIndicatorColor: Colors.blue[300],
-      // )..show(context);
+      //SharedPreferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', response.body);
 
-      // Future.delayed(Duration(seconds: 3), () {
-      //   Navigator.pop(context);
-      // });
+      //getProfile
+      var urlGetProfile = "https://api.codingthailand.com/api/profile";
+      var responseProfile = await http.get(
+        urlGetProfile,
+        headers: {'Authorization': 'Bearer ${token['access_token']}'},
+      );
+      var resp = jsonDecode(responseProfile.body);
+      var profile = resp['data']['user'];
+
+      await prefs.setString('profile', jsonEncode(profile));
+
+      //goto HomeStack
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/homestack', (route) => false);
     } else {
       var resp = jsonDecode(response.body);
-      // Flushbar(
-      //   message: resp['errors']['email'][0],
-      //   icon: Icon(
-      //     Icons.error,
-      //     size: 28.0,
-      //     color: Colors.red[300],
-      //   ),
-      //   duration: Duration(seconds: 3),
-      //   leftBarIndicatorColor: Colors.blue[300],
-      // )..show(context);
+// Flushbar(
+//   title: "Hey Ninja",
+//   message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+//   backgroundColor: Colors.red,
+//   boxShadows: [BoxShadow(color: Colors.red[800], offset: Offset(0.0, 2.0), blurRadius: 3.0,)],
+// )..show(context);
       // print(resp['errors']['email'][0]);
+
     }
   }
 
@@ -80,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                             'email': '',
                             'password': '',
                           },
-                          autovalidate: true,
+                          autovalidate: _autovalidate,
                           child: Column(
                             children: <Widget>[
                               FormBuilderTextField(
@@ -158,6 +160,10 @@ class _LoginPageState extends State<LoginPage> {
                                 onPressed: () {
                                   if (_fbKey.currentState.saveAndValidate()) {
                                     _login(_fbKey.currentState.value);
+                                  } else {
+                                    setState(() {
+                                      _autovalidate = true;
+                                    });
                                   }
                                 },
                               ),

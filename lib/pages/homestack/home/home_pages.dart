@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/logo.dart';
 import 'package:my_app/widgets/menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -19,6 +20,14 @@ class _HomePageState extends State<HomePage> {
     print(title);
   }
 
+  _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    await prefs.remove('profile');
+    Navigator.of(context, rootNavigator: true)
+        .pushNamedAndRemoveUntil('/login', (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +37,8 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () => {},
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () => {_logout()},
           )
         ],
       ),
@@ -41,9 +50,7 @@ class _HomePageState extends State<HomePage> {
         crossAxisCount: 2,
         children: <Widget>[
           GestureDetector(
-            onTap: () => {
-              Navigator.pushNamed(context, 'homestack/company')
-            },
+            onTap: () => {Navigator.pushNamed(context, 'homestack/company')},
             child: Container(
               padding: const EdgeInsets.all(8),
               child: Column(

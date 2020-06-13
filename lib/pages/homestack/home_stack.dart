@@ -14,7 +14,7 @@ class HomeStack extends StatelessWidget {
         switch (settings.name) {
           case 'homestack/home':
             builder = (BuildContext _) => HomePage();
-             print("home page");
+            print("home page");
             break;
           case 'homestack/company':
             builder = (BuildContext _) => CompanyPage();
