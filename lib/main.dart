@@ -5,6 +5,7 @@ import 'package:my_app/pages/login/login_page.dart';
 import 'package:my_app/pages/productstack/product_stack.dart';
 import 'package:my_app/pages/redux/app_reducer.dart';
 import 'package:my_app/pages/register/register_page.dart';
+import 'package:redux_thunk/redux_thunk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'pages/newsstack/news_stack.dart';
@@ -18,7 +19,8 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   token = prefs.getString('token');
 
-  final _store = Store<AppState>(appReducer, initialState: AppState.inittal());
+  final _store = Store<AppState>(appReducer,
+      initialState: AppState.inittal(), middleware: [thunkMiddleware]);
 
   runApp(MyApp(store: _store));
 }

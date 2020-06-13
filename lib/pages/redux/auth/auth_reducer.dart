@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:my_app/models/product_modal.dart';
+import 'package:my_app/pages/redux/auth/auth_action.dart';
 
 @immutable
 class AuthState {
   final Map<String, dynamic> profile;
   AuthState(
       {this.profile = const {
-        "email": "bob@gmail.com",
-        "name": "bob",
-        "role": "member"
+        "email": "",
+        "name": "",
+        "role": ""
       }});
 
   AuthState copyWith({Map<String, dynamic> profile}) {
@@ -18,5 +18,10 @@ class AuthState {
 }
 
 authReducer(AuthState prevState, dynamic action) {
+  if(action is ProfileAction) {
+    return prevState.copyWith(
+      profile: action.authState.profile
+    );
+  }
   return prevState;
 }

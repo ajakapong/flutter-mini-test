@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:my_app/pages/redux/app_reducer.dart';
+import 'package:my_app/pages/redux/auth/auth_action.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -41,6 +44,12 @@ class _LoginPageState extends State<LoginPage> {
       var profile = resp['data']['user'];
 
       await prefs.setString('profile', jsonEncode(profile));
+
+      print(profile);
+
+      //call action
+      final store = StoreProvider.of<AppState>(context);
+      store.dispatch(getProfileAction(profile));
 
       //goto HomeStack
       Navigator.pushNamedAndRemoveUntil(
